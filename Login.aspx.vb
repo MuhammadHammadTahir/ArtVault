@@ -49,6 +49,7 @@ Partial Class _Default
 
             con.Close()
             cmd.Dispose()
+            'from here use if else statments to redirect to the respective page
             If is_error = False Then
                 Response.Redirect("Login.aspx")
             End If
