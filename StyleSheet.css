@@ -1,0 +1,110 @@
+﻿body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    margin: 0;
+    background: linear-gradient(to top right, #1E3A8A, #FACC15);
+}
+
+#logo {
+    width: 170px;
+    height: auto;
+    position: absolute;
+    top: 10px;
+    left: 20px;
+}
+
+form {
+    width: 60%;
+    max-width: 700px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+#message_box {
+    width: 90%;
+    border: solid 1px #f4f4f4;
+    left: 4%;
+    padding: 7px;
+    border-radius: 11px;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    position: absolute;
+    top: 3px;
+    text-align: center;
+    background-color: #d4a017;
+    justify-content: center;
+}
+
+h2 {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    margin-bottom: 20px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
+
+label {
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    padding: 7px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.submit-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.submit-container input[type="submit"]:hover {
+        background-color: #d4a017;
+}
+
+.submit-container input[type="submit"] {
+        background-color: #333;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    flex-direction:column
+}
+
+#form2 {
+    width: 35%;
+    max-width: 700px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.sign-up {
+    text-align: center;
+    margin-top: 20px;
+}
