@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Login</title>
-    <link rel="icon" type="image/png" href="logo_new.png">
+    <link rel="icon" type="image/png" href="logo_new.png" />
     <link rel="stylesheet" type="text/css" href="../StyleSheet.css" />
 </head>
 <body>

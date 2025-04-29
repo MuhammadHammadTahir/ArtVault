@@ -7,7 +7,7 @@ Partial Class _Default
     Dim is_error As Boolean = False
     Private Sub Register(sender As Object, e As EventArgs) Handles add.ServerClick
         Dim constr As String
-        constr = "Data Source= localhost; Initial Catalog= ARTVAULT; User ID=Hammad; Password= Hammad"
+        constr = "Data Source= localhost; Initial Catalog= ARTVAULT_Testing; User ID=Hammad; Password= Hammad"
         Dim con As New SqlConnection
         con.ConnectionString = constr
         Dim cmd As New SqlCommand
