@@ -4,7 +4,7 @@ Imports System.Drawing.Imaging
 Partial Class Artist
     Inherits System.Web.UI.Page
 
-    Private Sub Customer_Load(sender As Object, e As EventArgs) Handles Me.Load
+    Private Sub Artist_Load(sender As Object, e As EventArgs) Handles Me.Load
         Dim Authenticated As Boolean = CType(Session("Authenticated"), Boolean)
         Dim Role As String = CType(Session("Role"), String)
 
