@@ -23,7 +23,7 @@ Partial Class Myinfo
 
 
             Dim constr As String
-            constr = "Data Source= localhost; Initial Catalog= ARTVAULT_Testing; User ID=Hammad; Password= Hammad"
+            constr = "Data Source=AALLEYY-PROBOOK\SQLEXPRESS;Initial Catalog=ArtVault;Integrated Security=True;Encrypt=False;"
             Dim con As New SqlConnection
             con.ConnectionString = constr
             Dim cmd As New SqlCommand
@@ -132,7 +132,7 @@ Partial Class Myinfo
         Dim Session_Cnic As String = CType(Session("Cnic"), String)
         Dim is_error As Boolean = False
         Dim constr As String
-        constr = "Data Source= localhost; Initial Catalog= ARTVAULT_Testing; User ID=Hammad; Password= Hammad"
+        constr = "Data Source=AALLEYY-PROBOOK\SQLEXPRESS;Initial Catalog=ArtVault;Integrated Security=True;Encrypt=False;"
         Dim con As New SqlConnection
         con.ConnectionString = constr
         Dim cmd As New SqlCommand
