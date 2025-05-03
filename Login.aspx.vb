@@ -16,7 +16,7 @@ Partial Class _Default
     Dim is_error As Boolean = False
     Private Sub Login(sender As Object, e As EventArgs) Handles login_btn.ServerClick
         Dim constr As String
-        constr = "Data Source= localhost; Initial Catalog= ARTVAULT_Testing; User ID=Hammad; Password= Hammad"
+        constr = "Data Source=AALLEYY-PROBOOK\SQLEXPRESS;Initial Catalog=ArtVault;Integrated Security=True;Encrypt=False"
         Dim con As New SqlConnection
         con.ConnectionString = constr
         Dim cmd As New SqlCommand
