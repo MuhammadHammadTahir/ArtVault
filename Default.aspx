@@ -1,4 +1,4 @@
-﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Myorders.aspx.vb" Inherits="Myorders" %>
+﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Default.aspx.vb" Inherits="_Default" %>
 
 <!DOCTYPE html>
 
@@ -9,6 +9,8 @@
 <body>
     <form id="form1" runat="server">
         <div>
+            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="True">
+            </asp:GridView>
         </div>
     </form>
 </body>
