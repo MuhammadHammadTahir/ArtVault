@@ -1,5 +1,6 @@
 ﻿
 Imports System.ComponentModel
+Imports System.Data
 Imports System.Data.SqlClient
 Imports System.Web.UI.WebControls.Expressions
 
@@ -13,13 +14,13 @@ Partial Class Myinfo
         Dim Session_Password As String = CType(Session("Password"), String)
 
         If Authenticated = False Then
-            Response.Redirect("Login.aspx")
+            Response.Redirect("../Login.aspx")
         End If
         If Role Is Nothing Then
-            Response.Redirect("Login.aspx")
+            Response.Redirect("../Login.aspx")
         End If
-        If Role <> "Customer" And Role <> "Employee" Then
-            Response.Redirect("Login.aspx")
+        If Role <> "Artist" Then
+            Response.Redirect("../Login.aspx")
         End If
 
         If Me.IsPostBack = False Then
@@ -27,11 +28,12 @@ Partial Class Myinfo
 
             Dim constr As String
             constr = "Data Source= localhost; Initial Catalog= ARTVAULT_Testing; User ID=Hammad; Password= Hammad"
-            Dim con As New SqlConnection
+            Dim con, con2 As New SqlConnection
             con.ConnectionString = constr
-            Dim cmd As New SqlCommand
+            Dim cmd, cmd2 As New SqlCommand
             cmd.Connection = con
-            cmd.CommandText = "SELECT PERSON_ID, FIRST_NAME, LAST_NAME, EMAIL, PHONE_NO, GENDER, CITY, STATE, POSTAL_CODE, COUNTRY, ROLE, PASSWORD FROM PERSON WHERE PERSON_ID = @PersonId AND PASSWORD = @Password"
+            cmd.CommandText = "SELECT PERSON_ID, FIRST_NAME, LAST_NAME, EMAIL, PHONE_NO, GENDER, CITY, STATE, POSTAL_CODE, COUNTRY, ROLE, PASSWORD " &
+                 "FROM PERSON WHERE PERSON_ID = @PersonId AND PASSWORD = @Password"
             cmd.Parameters.AddWithValue("@PersonId", Session_Cnic)
             cmd.Parameters.AddWithValue("@Password", Session_Password)
             Dim dr As SqlDataReader
@@ -51,30 +53,16 @@ Partial Class Myinfo
                     country.Value = dr("COUNTRY").ToString()
                     Role_name.SelectedValue = dr("ROLE").ToString()
                     password.Value = dr("PASSWORD").ToString()
-                    If dr("ROLE").ToString() = "Customer" Then
-                        Dim con2 As New SqlConnection
-                        con2.ConnectionString = constr
-                        Dim cmd2 As New SqlCommand
-                        cmd2.Connection = con2
-                        cmd2.CommandText = "SELECT ACCOUNT_CREATION_DATE FROM CUSTOMER WHERE CUSTOMER_ID = @CustomerId"
-                        cmd2.Parameters.AddWithValue("@CustomerId", Session_Cnic)
+
+                    con2.ConnectionString = constr
+                    cmd2.Connection = con2
+                        cmd2.CommandText = "SELECT STYLE FROM ARTIST WHERE ARTIST_ID = '" + Session_Cnic + "'"
                         Dim dr2 As SqlDataReader
                         Try
                             con2.Open()
                             dr2 = cmd2.ExecuteReader
                             If dr2.Read() Then
-                                Dim Date_display As New HtmlGenericControl("div")
-                                Date_display.Attributes.Add("class", "Date_display")
-                                Dim Date_lable As New HtmlGenericControl("label")
-                                Date_lable.InnerText = "Account Creation Date: "
-                                Dim Date_feild As New HtmlGenericControl("input")
-                                Date_feild.Attributes.Add("type", "text")
-                                Date_feild.Attributes.Add("value", dr2("ACCOUNT_CREATION_DATE").ToString())
-                                Date_feild.Attributes.Add("readonly", "true")
-                                Date_feild.Attributes.Add("class", "form-control")
-                                Date_display.Controls.Add(Date_lable)
-                                Date_display.Controls.Add(Date_feild)
-                                grid_container.Controls.Add(Date_display)
+                                Artist_style.SelectedValue = dr2("STYLE").ToString()
                             End If
                         Catch ex As Exception
                             message_box.Style.Add("opacity", "1")
@@ -84,7 +72,6 @@ Partial Class Myinfo
                             cmd.Dispose()
                         End Try
 
-                    End If
                 End If
 
             Catch ex As Exception
@@ -106,6 +93,7 @@ Partial Class Myinfo
             postal_code.Attributes.Add("readonly", "true")
             country.Attributes.Add("readonly", "true")
             Role_name.Attributes.Add("disabled", "true")
+            Artist_style.Attributes.Add("disabled", "true")
             password.Attributes.Add("readonly", "true")
         End If
         edit.Visible = True
@@ -124,7 +112,9 @@ Partial Class Myinfo
         state.Attributes.Remove("readonly")
         postal_code.Attributes.Remove("readonly")
         country.Attributes.Remove("readonly")
+        Artist_style.Attributes.Remove("disabled")
         password.Attributes.Remove("readonly")
+
 
         'edit.Style.Add("display", "none")
         edit.Visible = False
@@ -138,21 +128,17 @@ Partial Class Myinfo
         Dim is_error As Boolean = False
         Dim constr As String
         constr = "Data Source= localhost; Initial Catalog= ARTVAULT_Testing; User ID=Hammad; Password= Hammad"
-        Dim con As New SqlConnection
+        Dim con, con2, con3, con4 As New SqlConnection
         con.ConnectionString = constr
+        con2.ConnectionString = constr
+        con3.ConnectionString = constr
+        con4.ConnectionString = constr
         Dim cmd As New SqlCommand
         cmd.Connection = con
-        cmd.CommandText = "UPDATE PERSON SET " &
-                  "FIRST_NAME = @FirstName, " &
-                  "LAST_NAME = @LastName, " &
-                  "EMAIL = @Email, " &
-                  "PHONE_NO = @Phone, " &
-                  "CITY = @City, " &
-                  "STATE = @State, " &
-                  "POSTAL_CODE = @PostalCode, " &
-                  "COUNTRY = @Country, " &
-                  "PASSWORD = @Password " &
-                  "WHERE PERSON_ID = @PersonId"
+        cmd.CommandText = "UPDATE PERSON SET FIRST_NAME=@FirstName, LAST_NAME=@LastName, " &
+                 "EMAIL=@Email, PHONE_NO=@Phone, CITY=@City, STATE=@State, " &
+                 "POSTAL_CODE=@PostalCode, COUNTRY=@Country, PASSWORD=@Password " &
+                 "WHERE PERSON_ID = @PersonId"
 
         cmd.Parameters.AddWithValue("@FirstName", first_name.Value)
         cmd.Parameters.AddWithValue("@LastName", last_name.Value)
@@ -176,6 +162,52 @@ Partial Class Myinfo
             message_box.InnerText = ex.Message
             is_error = True
         Finally
+            Dim cmd2, cmd3, cmd4 As New SqlCommand
+            cmd2.CommandText = "Select STYLE FROM ARTIST WHERE ARTIST_ID = '"
+            cmd2.CommandText &= Session_Cnic & "'"
+            Dim dr2 As SqlDataReader
+            Try
+                con2.Open()
+                cmd2.Connection = con2
+                dr2 = cmd2.ExecuteReader
+                If dr2.Read() Then
+                    Dim style As String = dr2("STYLE").ToString()
+                    If style <> Artist_style.SelectedValue Then
+                        cmd3.CommandText = "UPDATE ARTIST SET STYLE='" & Artist_style.SelectedValue & "' WHERE PERSON_ID = '"
+                        cmd3.CommandText &= Session_Cnic & "'"
+                        con3.Open()
+                        cmd3.Connection = con3
+                        Dim insert_C As Integer = cmd3.ExecuteNonQuery()
+                        If insert_C > 0 Then
+                            message_box.Style.Add("opacity", "1")
+                            message_box.InnerText = "Record Updated Successfully"
+                        End If
+                    End If
+                Else
+                    cmd4.CommandText = "INSERT INTO ARTIST (ARTIST_ID, STYLE) VALUES ('"
+                    cmd4.CommandText &= Session_Cnic & "', '"
+                    cmd4.CommandText &= Artist_style.SelectedValue + "')"
+                    con4.Open()
+                    cmd4.Connection = con4
+                    Dim insert_C As Integer = cmd4.ExecuteNonQuery()
+                    If insert_C > 0 Then
+                        message_box.Style.Add("opacity", "1")
+                        message_box.InnerText = "Record Updated Successfully"
+                    End If
+                End If
+            Catch ex As Exception
+                message_box.Style.Add("opacity", "1")
+                message_box.InnerText = ex.Message
+            Finally
+                con.Close()
+                con2.Close()
+                con3.Close()
+                con4.Close()
+                cmd.Dispose()
+                cmd2.Dispose()
+                cmd3.Dispose()
+                cmd4.Dispose()
+            End Try
             con.Close()
             cmd.Dispose()
         End Try

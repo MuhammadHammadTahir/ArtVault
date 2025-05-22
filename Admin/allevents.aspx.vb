@@ -2,7 +2,7 @@
 Imports System.Data.SqlClient
 Imports System.Drawing
 
-Partial Class Upcomingevents
+Partial Class allevents
     Inherits System.Web.UI.Page
     Private Sub Myinfo_Load(sender As Object, e As EventArgs) Handles Me.Load
         Dim Authenticated As Boolean = CType(Session("Authenticated"), Boolean)
@@ -12,13 +12,13 @@ Partial Class Upcomingevents
         Dim Session_Password As String = CType(Session("Password"), String)
 
         If Authenticated = False Then
-            Response.Redirect("./Login.aspx")
+            Response.Redirect("..//Login.aspx")
         End If
         If Role Is Nothing Then
-            Response.Redirect("./Login.aspx")
+            Response.Redirect("../Login.aspx")
         End If
-        If Role <> "Customer" And Role <> "Artist" And Role <> "Employee" Then
-            Response.Redirect("./Login.aspx")
+        If Role <> "Admin" Then
+            Response.Redirect("../Login.aspx")
         End If
         Dim constr As String
         constr = "Data Source= localhost; Initial Catalog= ARTVAULT_Testing; User ID=Hammad; Password= Hammad"
@@ -26,8 +26,7 @@ Partial Class Upcomingevents
         con.ConnectionString = constr
         Dim cmd As New SqlCommand
         cmd.Connection = con
-        cmd.CommandText = "SELECT E.EVENT_NAME, E.START_DATE, E.END_DATE, E.EVENT_LOCATION, (P.FIRST_NAME + ' ' + P.LAST_NAME) AS EVENT_EMPLOYEE FROM EVENT E INNER JOIN PERSON P ON P.PERSON_ID = E.EMPLOYEE_ID WHERE E.START_DATE >= @Today"
-        cmd.Parameters.AddWithValue("@Today", DateTime.Now)
+        cmd.CommandText = "SELECT E.EVENT_NAME, E.START_DATE, E.END_DATE, E.EVENT_LOCATION, (P.FIRST_NAME + ' ' + P.LAST_NAME) AS EVENT_EMPLOYEE FROM EVENT E INNER JOIN PERSON P ON P.PERSON_ID = E.EMPLOYEE_ID"
         Dim dr As SqlDataReader
         Try
             con.Open()

@@ -21,8 +21,11 @@ Partial Class _Default
         con.ConnectionString = constr
         Dim cmd As New SqlCommand
         cmd.Connection = con
-        cmd.CommandText = "SELECT PERSON_ID, ROLE, PASSWORD, FIRST_NAME, LAST_NAME FROM PERSON WHERE PERSON_ID = '"
-        cmd.CommandText += person_id.Value + "' AND PASSWORD = '" + password.Value + "'"
+        'cmd.CommandText = "SELECT PERSON_ID, ROLE, PASSWORD, FIRST_NAME, LAST_NAME FROM PERSON WHERE PERSON_ID = '"
+        'cmd.CommandText += person_id.Value + "' AND PASSWORD = '" + password.Value + "'"
+        cmd.CommandText = "SELECT PERSON_ID, ROLE, PASSWORD, FIRST_NAME, LAST_NAME FROM PERSON WHERE PERSON_ID = @user_id AND PASSWORD = @password"
+        cmd.Parameters.AddWithValue("@user_id", person_id.Value)
+        cmd.Parameters.AddWithValue("@password", password.Value)
         Dim dr As SqlDataReader
         Try
             con.Open()
@@ -52,12 +55,21 @@ Partial Class _Default
             message_box.InnerText = ex.Message
             is_error = True
         Finally
-
             con.Close()
             cmd.Dispose()
             'from here use if else statments to redirect to the respective page
             If is_error = False And Session_Role = "Customer" Then
                 Response.Redirect("Customer.aspx")
+            End If
+            If is_error = False And Session_Role = "Admin" Then
+                Response.Redirect("./Admin/Admin.aspx")
+            End If
+            'there is space in Employee
+            If is_error = False And Session_Role = "Employee" Then
+                Response.Redirect("./Employee/Employee.aspx")
+            End If
+            If is_error = False And Session_Role = "Artist" Then
+                Response.Redirect("./Artist/Artist.aspx")
             End If
         End Try
 

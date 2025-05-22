@@ -59,6 +59,17 @@ label {
     font-weight: bold;
 }
 
+.label-style {
+    font-weight: bold;
+}
+
+.file-upload-style {
+    padding: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
 .form-control {
     width: 100%;
     padding: 7px;
@@ -109,3 +120,26 @@ label {
     margin-top: 20px;
 }
 
+#orderscontainer {
+    justify-self: center;
+    align-self: center
+}
+
+
+.logo_allevents {
+    display: flex;
+}
+
+#allevents {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+    #allevents:hover {
+        background-color: #d4a017;
+    }

@@ -12,19 +12,21 @@ Partial Class _Default
         con.ConnectionString = constr
         Dim cmd As New SqlCommand
         cmd.Connection = con
-        cmd.CommandText = "INSERT INTO PERSON (PERSON_ID, FIRST_NAME, LAST_NAME, EMAIL, PHONE_NO, GENDER, CITY, STATE, POSTAL_CODE, COUNTRY, ROLE, PASSWORD) "
-        cmd.CommandText &= "VALUES ('" + person_id.Value + "', '"
-        cmd.CommandText &= first_name.Value + "', '"
-        cmd.CommandText &= last_name.Value + "', '"
-        cmd.CommandText &= email.Value + "', '"
-        cmd.CommandText &= phone.Value + "', '"
-        cmd.CommandText &= gender.Value + "', '"
-        cmd.CommandText &= city.Value + "', '"
-        cmd.CommandText &= state.Value + "', '"
-        cmd.CommandText &= postal_code.Value + "', '"
-        cmd.CommandText &= country.Value + "', '"
-        cmd.CommandText &= role.Value + "', '"
-        cmd.CommandText &= password.Value + "')"
+        cmd.CommandText = "INSERT INTO PERSON (PERSON_ID, FIRST_NAME, LAST_NAME, EMAIL, PHONE_NO, GENDER, CITY, STATE, POSTAL_CODE, COUNTRY, ROLE, PASSWORD) " &
+                 "VALUES (@PersonId, @FirstName, @LastName, @Email, @Phone, @Gender, @City, @State, @PostalCode, @Country, @Role, @Password)"
+
+        cmd.Parameters.AddWithValue("@PersonId", person_id.Value)
+        cmd.Parameters.AddWithValue("@FirstName", first_name.Value)
+        cmd.Parameters.AddWithValue("@LastName", last_name.Value)
+        cmd.Parameters.AddWithValue("@Email", email.Value)
+        cmd.Parameters.AddWithValue("@Phone", phone.Value)
+        cmd.Parameters.AddWithValue("@Gender", gender.Value)
+        cmd.Parameters.AddWithValue("@City", city.Value)
+        cmd.Parameters.AddWithValue("@State", state.Value)
+        cmd.Parameters.AddWithValue("@PostalCode", postal_code.Value)
+        cmd.Parameters.AddWithValue("@Country", country.Value)
+        cmd.Parameters.AddWithValue("@Role", role.Value)
+        cmd.Parameters.AddWithValue("@Password", password.Value)
         Try
             con.Open()
             Dim insert As Integer = cmd.ExecuteNonQuery()
@@ -46,9 +48,9 @@ Partial Class _Default
                 Dim formatted_date As String = account_creation_date.ToString("yyyy-MM-dd")
                 ' Response.Write("Account Creation Date: " & formatted_date)
 
-                cmd.CommandText = "INSERT INTO CUSTOMER (CUSTOMER_ID, ACCOUNT_CREATION_DATE) VALUES"
-                cmd.CommandText &= "('" + person_id.Value + "', '"
-                cmd.CommandText &= formatted_date + " ')"
+                cmd.CommandText = "INSERT INTO CUSTOMER (CUSTOMER_ID, ACCOUNT_CREATION_DATE) VALUES (@CustomerId, @CreationDate)"
+                cmd.Parameters.AddWithValue("@CustomerId", person_id.Value)
+                cmd.Parameters.AddWithValue("@CreationDate", formatted_date)
                 Dim insert_C As Integer = cmd.ExecuteNonQuery()
                 'If insert_C > 0 Then
                 '    Response.Write("C Inserted Successfully")
